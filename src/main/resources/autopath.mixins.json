@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "fr.lebon.autopath.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "PathBlockPlant"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

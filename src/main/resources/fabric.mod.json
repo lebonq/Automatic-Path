@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "autopath",
+  "version": "${version}",
+  "name": "Automatic Path",
+  "description": "Automatically generate paths as entities walks on it.",
+  "authors": [
+    "lebonq"
+  ],
+  "contributors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/autopath/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "fr.lebon.autopath.AutoPath"
+    ],
+    "client": [
+      "fr.lebon.autopath.AutoPathClient"
+    ],
+    "server": []
+  },
+  "mixins": [
+    "autopath.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*"
+  }
+}
