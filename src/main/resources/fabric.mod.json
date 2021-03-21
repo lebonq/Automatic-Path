@@ -8,7 +8,12 @@
     "lebonq"
   ],
   "contributors": [],
-  "contact": {},
+  "contact": {
+    "sources": "https://github.com/lebonq/Automatic-Path",
+    "homepage": "https://modrinth.com/mod/autopath",
+    "issues": "https://github.com/lebonq/Automatic-Path/issues"
+  },
+
   "license": "MIT",
   "icon": "assets/autopath/icon.png",
   "environment": "*",
