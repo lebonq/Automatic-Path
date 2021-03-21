@@ -5,4 +5,4 @@ Little Minecraft fabric mod. Which transforms grass into non-permanant path wher
 ## Screens
 
 ![Screen 1](screen1.png)
-![Screen 2](screen3.png)
+![Screen 2](screen2.png)
