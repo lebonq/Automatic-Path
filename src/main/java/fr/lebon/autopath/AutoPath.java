@@ -49,46 +49,6 @@ public class AutoPath implements ModInitializer{
         Registry.register(Registry.ITEM, new Identifier("autopath", "path"), PATH_ITEM);
         
         PATH_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "autopath:path", BlockEntityType.Builder.create(PathEntity::new, PATH).build(null));
-
-        log(Level.INFO, "Register Methods");
-        ServerTickEvents.END_WORLD_TICK.register(new ServerTickEvents.EndWorldTick() {
-
-            @Override
-            public void onEndTick(ServerWorld world) {
-                List<ServerPlayerEntity> vListPlayer = world.getPlayers(); 
-                
-                if(vListPlayer.isEmpty())return; //Si aucun joueur on ne check rien
-
-                Iterator<ServerPlayerEntity> vItPlayers = vListPlayer.iterator();
-                BlockPos vPos = null;
-
-                while(vItPlayers.hasNext()){ //Boucle pour les joueurs
-                    vPos = vItPlayers.next().getBlockPos(); //on prend la pos du joueur
-
-                    BlockPos vPosUnderPlayer = new BlockPos(vPos.getX(), vPos.getY()-0.001d, vPos.getZ()); //On selectionne le block en dessous
-                    if(world.getBlockState(vPosUnderPlayer).getBlock() == Block.getStateFromRawId(8).getBlock()){ // 8 is grass
-                        world.setBlockState(vPosUnderPlayer,PATH.getDefaultState());
-                    }
-
-                    List<LivingEntity> vListEntities = world.getEntitiesByClass(LivingEntity.class, new Box(-200.0+ vPosUnderPlayer.getX(), 
-                                                                                                            -200.0+vPosUnderPlayer.getY(), 
-                                                                                                            -200.0+vPosUnderPlayer.getZ(), 
-                                                                                                             200.0+vPosUnderPlayer.getX(), 
-                                                                                                             200.0+vPosUnderPlayer.getY(), 
-                                                                                                             200.0+vPosUnderPlayer.getZ()), null); // On recupere les mobs autout du joueur actuel
-                    Iterator<LivingEntity> vItEntities = vListEntities.iterator();
-
-                    while(vItEntities.hasNext()){ //Boucle pour les mobs
-                        vPos = vItEntities.next().getBlockPos();
-                        BlockPos vPosUnderEntity = new BlockPos(vPos.getX(), vPos.getY()-0.001d, vPos.getZ());
-                        if(world.getBlockState(vPosUnderEntity).getBlock() == Block.getStateFromRawId(8).getBlock()){ // 8 is grass
-                            world.setBlockState(vPosUnderEntity,PATH.getDefaultState());
-                        }
-                    }
-                }
-            }
-                
-        });
     }
 
     public static void log(Level level, String message){
