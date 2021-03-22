@@ -4,7 +4,8 @@
   "package": "fr.lebon.autopath.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PathBlockPlant"
+    "PathBlockPlant",
+    "BlockOnStepped"
   ],
   "server": [
   ],
