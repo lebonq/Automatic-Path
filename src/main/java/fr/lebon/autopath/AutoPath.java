@@ -6,6 +6,9 @@ import org.apache.logging.log4j.Logger;
 
 import fr.lebon.autopath.blocks.PathBlock;
 import fr.lebon.autopath.entity.PathEntity;
+import fr.lebon.autopath.config.AutoPathConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -39,6 +42,9 @@ public class AutoPath implements ModInitializer{
         Registry.register(Registry.ITEM, new Identifier("autopath", "path"), PATH_ITEM);
         
         PATH_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "autopath:path", BlockEntityType.Builder.create(PathEntity::new, PATH).build(null));
+
+        log(Level.INFO, "Initializing config");
+        AutoConfig.register(AutoPathConfig.class, GsonConfigSerializer::new);
     }
 
     public static void log(Level level, String message){

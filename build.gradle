@@ -1,17 +1,21 @@
 plugins {
 	id 'fabric-loom' version '0.5-SNAPSHOT'
 	id 'maven-publish'
-	id "com.modrinth.minotaur" version "1.1.0"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
+archivesBaseName = project.archives_base_name + "-mc" + project.minecraft_version
+version = project.mod_version 
 group = project.maven_group
 
 minecraft {
+}
+
+repositories {
+    maven { url "https://maven.shedaniel.me/" }
+	maven { url "https://maven.terraformersmc.com/releases" }
 }
 
 dependencies {
@@ -21,6 +25,13 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	modApi("me.shedaniel.cloth:cloth-config-fabric:4.11.15") { //For config
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+	include "me.shedaniel.cloth:cloth-config-fabric:4.11.15"
+
+	modImplementation "com.terraformersmc:modmenu:1.16.8"
 }
 
 processResources {
