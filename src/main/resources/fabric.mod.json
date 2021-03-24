@@ -24,7 +24,10 @@
     "client": [
       "fr.lebon.autopath.AutoPathClient"
     ],
-    "server": []
+    "server": [],
+    "modmenu": [
+      "fr.lebon.autopath.config.AutoPathConfigMenu"
+  ]
   },
   "mixins": [
     "autopath.mixins.json"
