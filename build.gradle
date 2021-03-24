@@ -6,8 +6,8 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
+archivesBaseName = project.archives_base_name + "-mc" + project.minecraft_version
+version = project.mod_version 
 group = project.maven_group
 
 minecraft {
@@ -74,7 +74,7 @@ publishing {
 			artifact(jar) {
 				builtBy remapJar
 			}
-			artifact("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.minecraft_version}-${project.version}.jar"){
+			artifact("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar"){
 				builtBy remapJar
 			}
 			artifact(sourcesJar) {
