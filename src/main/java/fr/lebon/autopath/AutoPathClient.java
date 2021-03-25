@@ -13,9 +13,9 @@ public class AutoPathClient implements ClientModInitializer{
     @Override
     public void onInitializeClient() {
         AutoPath.log(Level.INFO, "Client initialize");
-        ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> BiomeColors.getGrassColor(view, pos), AutoPath.PATH);
+        ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> BiomeColors.getGrassColor(view, pos), AutoPath.PATH_BLOCK);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x507C44, AutoPath.PATH_ITEM);
-        BlockRenderLayerMap.INSTANCE.putBlock(AutoPath.PATH, RenderLayer.getCutout());//For transparancy
+        BlockRenderLayerMap.INSTANCE.putBlock(AutoPath.PATH_BLOCK, RenderLayer.getCutout());//For transparancy
     }
     
 }

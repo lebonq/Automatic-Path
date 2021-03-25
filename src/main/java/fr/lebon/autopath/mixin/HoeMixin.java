@@ -34,7 +34,7 @@ public class HoeMixin {
         BlockPos pos = context.getBlockPos();
 
         if (context.getSide() != Direction.DOWN && world.getBlockState(pos.up()).isAir()) {
-            if (world.getBlockState(pos).isOf(AutoPath.PATH)){
+            if (world.getBlockState(pos).isOf(AutoPath.PATH_BLOCK)){
                if(world.getBlockState(pos).get(PathBlock.STATE_RENDER) <= 2){ //cannot merge those 2 statements bc we must be sure the block is a path
                     PlayerEntity playerEntity = context.getPlayer();
                     world.playSound(playerEntity, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);

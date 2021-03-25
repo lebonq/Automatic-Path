@@ -13,6 +13,6 @@ import net.minecraft.world.gen.feature.Feature;
 public class PathBlockSapling {
 	@Inject(method = "isSoil(Lnet/minecraft/block/Block;)Z", cancellable = true, at = @At(value = "RETURN"))
     private static void makePathSaplingable(Block block, CallbackInfoReturnable<Boolean> cir) {
-        if (!cir.getReturnValue() && block.is(AutoPath.PATH)) cir.setReturnValue(true);
+        if (!cir.getReturnValue() && block.is(AutoPath.PATH_BLOCK)) cir.setReturnValue(true);
     }
 }

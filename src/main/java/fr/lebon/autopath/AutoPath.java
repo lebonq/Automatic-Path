@@ -28,8 +28,9 @@ public class AutoPath implements ModInitializer{
         public static final String MOD_ID = "autopath";
         public static final String MOD_NAME = "Automatic Path";
 
-        public static final Block PATH = new PathBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).nonOpaque().sounds(BlockSoundGroup.GRASS).breakByHand(true));
-        public static final BlockItem PATH_ITEM = new BlockItem(PATH, new Item.Settings().group(ItemGroup.MISC));
+        public static final Block PATH_BLOCK = new PathBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).nonOpaque().sounds(BlockSoundGroup.GRASS).breakByHand(true));
+        public static final Block LAWN_BLOCK;
+        public static final BlockItem PATH_ITEM = new BlockItem(PATH_BLOCK, new Item.Settings().group(ItemGroup.MISC));
         public static BlockEntityType<PathEntity> PATH_ENTITY;
 
     @Override
@@ -38,10 +39,10 @@ public class AutoPath implements ModInitializer{
 
         log(Level.INFO, "Register Blocks");
 
-        Registry.register(Registry.BLOCK, new Identifier("autopath", "path"), PATH);
+        Registry.register(Registry.BLOCK, new Identifier("autopath", "path"), PATH_BLOCK);
         Registry.register(Registry.ITEM, new Identifier("autopath", "path"), PATH_ITEM);
         
-        PATH_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "autopath:path", BlockEntityType.Builder.create(PathEntity::new, PATH).build(null));
+        PATH_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "autopath:path", BlockEntityType.Builder.create(PathEntity::new, PATH_BLOCK).build(null));
 
         log(Level.INFO, "Initializing config");
         AutoConfig.register(AutoPathConfig.class, GsonConfigSerializer::new);

@@ -28,7 +28,7 @@ public class PathBlockSugarCane {
     private void test(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockState = world.getBlockState(pos.down());
 
-        if (blockState.isOf(AutoPath.PATH)) {
+        if (blockState.isOf(AutoPath.PATH_BLOCK)) {
             if(blockState.get(PathBlock.STATE_RENDER) <=3){//can't merge those 2 statement because we must be sure that the block is a Path block
                 BlockPos blockPos = pos.down();
                 Iterator var6 = Direction.Type.HORIZONTAL.iterator();
