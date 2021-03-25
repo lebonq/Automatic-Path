@@ -6,7 +6,8 @@
   "mixins": [
     "PathBlockPlant",
     "BlockOnStepped",
-    "PathBlockSugarCane"
+    "PathBlockSugarCane",
+    "PathBlockSapling"
   ],
   "server": [
   ],
