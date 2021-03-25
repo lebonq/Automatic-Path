@@ -42,4 +42,5 @@ public class PathBlock extends Block implements BlockEntityProvider{
             world.setBlockState(pos, world.getBlockState(pos).with(STEPPED, true));
         }
     }
+
 }
