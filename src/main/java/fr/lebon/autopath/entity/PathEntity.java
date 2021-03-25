@@ -4,8 +4,8 @@ import fr.lebon.autopath.AutoPath;
 import fr.lebon.autopath.config.AutoPathConfig;
 import fr.lebon.autopath.blocks.PathBlock;
 import me.shedaniel.autoconfig.AutoConfig;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tickable;
@@ -28,11 +28,16 @@ public class PathEntity extends BlockEntity implements Tickable{
     public void tick() {//20 ticks 1 seconde
         if(world.isClient()) return;
 
+        if(world.getBlockState(pos.up()).isSolidBlock(world, pos.up())){//si le block au dessus est solide
+            world.setBlockState(pos, Blocks.DIRT.getDefaultState());
+            return;
+        }
+
         int currentRenderState = world.getBlockState(pos).get(PathBlock.STATE_RENDER);
 
         if(nbTick >= downgradeTime){//7200
             if(currentRenderState - 1 <= 0){
-                world.setBlockState(pos, Block.postProcessState(Block.getStateFromRawId(8), world, pos));//On place un block de grass avec la couleur du biome
+                world.setBlockState(pos, Blocks.GRASS_BLOCK.getDefaultState());//On place un block de grass
                 return; //Le block est detruit
             }
             else{
