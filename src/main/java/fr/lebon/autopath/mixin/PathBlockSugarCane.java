@@ -1,14 +1,5 @@
 package fr.lebon.autopath.mixin;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SugarCaneBlock;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.WorldView;
-
 import java.util.Iterator;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,9 +9,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import fr.lebon.autopath.AutoPath;
 import fr.lebon.autopath.blocks.PathBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.SugarCaneBlock;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.tag.FluidTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.WorldView;
 
 
 @Mixin(SugarCaneBlock.class) 
+/**
+ * Permet de placer les cannes a sucre sur les chemins du state 3 ou plus bas
+ */
 public class PathBlockSugarCane {
 	@Inject(method = "canPlaceAt", at = @At("TAIL"), cancellable = true)
     private void test(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
