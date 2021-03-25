@@ -3,22 +3,14 @@ package fr.lebon.autopath.blocks;
 import java.util.List;
 import java.util.Random;
 
-
 import fr.lebon.autopath.entity.PathEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Fertilizable;
-import net.minecraft.block.FlowerBlock;
-import net.minecraft.block.GrassBlock;
-import net.minecraft.block.PlantBlock;
-import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.brain.task.BoneMealTask;
-import net.minecraft.item.BoneMealItem;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
