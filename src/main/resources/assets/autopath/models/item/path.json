@@ -1,3 +1,3 @@
 {
-    "parent": "minecraft:block/grass_block"
+    "parent": "autopath:block/path_level_3"
 }

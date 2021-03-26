@@ -31,5 +31,10 @@ public class PathBlockPlant {
             }
             
         }
+
+        if(floor.isOf(AutoPath.LAWN_BLOCK)){
+            cir.setReturnValue(true);
+            cir.cancel();
+        }
     }
 }

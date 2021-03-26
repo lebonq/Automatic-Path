@@ -28,19 +28,29 @@ public class PathBlockSugarCane {
     private void test(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockState = world.getBlockState(pos.down());
 
+        boolean trigger = false;
+
         if (blockState.isOf(AutoPath.PATH_BLOCK)) {
             if(blockState.get(PathBlock.STATE_RENDER) <=3){//can't merge those 2 statement because we must be sure that the block is a Path block
-                BlockPos blockPos = pos.down();
-                Iterator var6 = Direction.Type.HORIZONTAL.iterator();
+                trigger = true;
+            }
+        }
 
-                while (var6.hasNext()) {
-                    Direction direction = (Direction) var6.next();
-                    BlockState blockState2 = world.getBlockState(blockPos.offset(direction));
-                    FluidState fluidState = world.getFluidState(blockPos.offset(direction));
-                    if (fluidState.isIn(FluidTags.WATER) || blockState2.isOf(Blocks.FROSTED_ICE)) {
-                        cir.setReturnValue(true);
-                    }
-                }
+        if(blockState.isOf(AutoPath.LAWN_BLOCK)){
+            trigger = true;
+        }
+
+        if(trigger){
+            BlockPos blockPos = pos.down();
+            Iterator var6 = Direction.Type.HORIZONTAL.iterator();
+
+            while (var6.hasNext()) {
+                Direction direction = (Direction) var6.next();
+                BlockState blockState2 = world.getBlockState(blockPos.offset(direction));
+                FluidState fluidState = world.getFluidState(blockPos.offset(direction));
+                if (fluidState.isIn(FluidTags.WATER) || blockState2.isOf(Blocks.FROSTED_ICE)) {
+                   cir.setReturnValue(true);
+               }
             }
         }
     }

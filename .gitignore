@@ -22,3 +22,6 @@ run/
 
 #mod history
 history/
+
+#For 3d render
+blender/
