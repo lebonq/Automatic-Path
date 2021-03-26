@@ -20,7 +20,7 @@ import net.minecraft.world.BlockView;
 public class PathBlockPlant {
 	@Inject(method = "canPlantOnTop", cancellable = true, at = @At(value = "HEAD"))
     private void makePathPlantable(BlockState floor, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (floor.isOf(AutoPath.PATH)) {
+        if (floor.isOf(AutoPath.PATH_BLOCK)) {
             if(floor.get(PathBlock.STATE_RENDER) <=3){
                 cir.setReturnValue(true);
                 cir.cancel();
@@ -30,6 +30,11 @@ public class PathBlockPlant {
                 cir.cancel();
             }
             
+        }
+
+        if(floor.isOf(AutoPath.LAWN_BLOCK)){
+            cir.setReturnValue(true);
+            cir.cancel();
         }
     }
 }
