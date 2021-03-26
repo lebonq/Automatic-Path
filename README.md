@@ -1,9 +1,9 @@
-[Fabric Loader](https://fabricmc.net/use/ "Download Fabric Loader")   
-![Fabric API needed](https://i.imgur.com/5J6bV5W.png)
-
 # Automatic-Path
 
-Little Minecraft fabric mod. Which transforms grass into non-permanant path where players, mobs and monsters walk.   
+Little Minecraft fabric mod. Which transforms grass into non-permanant path where players, mobs and monsters walk.      
+    
+[Fabric Loader](https://fabricmc.net/use/ "Download Fabric Loader")   
+![Fabric API needed](https://i.imgur.com/5J6bV5W.png)
 
 ## Blocks
 
