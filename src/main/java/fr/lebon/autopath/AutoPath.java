@@ -1,13 +1,14 @@
 package fr.lebon.autopath;
 
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.lebon.autopath.blocks.LawnBlock;
 import fr.lebon.autopath.blocks.PathBlock;
-import fr.lebon.autopath.entity.PathEntity;
 import fr.lebon.autopath.config.AutoPathConfig;
+import fr.lebon.autopath.entity.PathEntity;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
