@@ -19,7 +19,7 @@ import net.minecraft.item.MiningToolItem;
 public class ShovelItemMixin {
 	@Inject(method = "getMiningSpeedMultiplier", at = @At("TAIL"), cancellable = true)
     private void changeEffectiveOn(ItemStack stack, BlockState state, CallbackInfoReturnable<Float> cir) {
-      if(state.isOf(AutoPath.PATH_BLOCK)){
+      if(state.isOf(AutoPath.PATH_BLOCK) || state.isOf(AutoPath.LAWN_BLOCK)){
          cir.setReturnValue(stack.getMiningSpeedMultiplier(Blocks.GRASS_BLOCK.getDefaultState()));
          cir.cancel();
       }
