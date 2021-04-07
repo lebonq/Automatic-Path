@@ -8,7 +8,8 @@
     "BlockOnStepped",
     "PathBlockSugarCane",
     "PathBlockSapling",
-    "HoeMixin"
+    "HoeMixin",
+    "ShovelItemMixin"
   ],
   "server": [
   ],
