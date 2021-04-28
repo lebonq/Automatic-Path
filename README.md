@@ -1,8 +1,8 @@
 # Automatic-Path
 
-Little Minecraft fabric mod. Which transforms grass into non-permanant path where players, mobs and monsters walk.      
-    
-[Fabric Loader](https://fabricmc.net/use/ "Download Fabric Loader")   
+Little Minecraft fabric mod. Which transforms grass into non-permanant path where players, mobs and monsters walk.  
+
+[Fabric Loader](https://fabricmc.net/use/ "Download Fabric Loader")  
 ![Fabric API needed](https://i.imgur.com/5J6bV5W.png)
 
 ## Blocks
@@ -20,14 +20,17 @@ And also transform them into farmland by using a hoe.
 ![Lawn Block](https://raw.githubusercontent.com/lebonq/Automatic-Path/master/images_description/lawn_block.png)
 
 Craft a beautiful lawn with :
+
 * 1 dirt + 1 bone meals to get 1 lawn block
 * 1 grass block + 1 bone meals to get 4 lawn block  
 
 The lawn block is 100% walk-proof and never transform into path. And no matter which biome you are it will keep its beautiful green color !
 
 ## Configuration
-You can change the amount of times between 2 states.   
-* You can do in-game via ModMenu.   
+
+You can change the amount of times between 2 states.  
+
+* You can do in-game via ModMenu.  
 * Or for server and client whitout ModMenu you can configure it cirectly in the file whit is config/autopath.json    
 
 ## Screens
