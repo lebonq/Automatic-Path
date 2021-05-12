@@ -43,7 +43,7 @@ public class PathBlock extends Block implements BlockEntityProvider, Fertilizabl
     @Override
     public void onSteppedOn(World world, BlockPos pos, Entity entity){
 
-        if(!(world.isClient())){
+        if(!(world.isClient()) && entity.isAlive()){
             world.setBlockState(pos, world.getBlockState(pos).with(STEPPED, true));
         }
     }
