@@ -25,7 +25,7 @@ Craft a beautiful lawn with :
 * 1 grass block + 1 bone meals to get 4 lawn block  
 
 The lawn block is 100% walk-proof and never transform into path. And no matter which biome you are it will keep its beautiful green color !
-And sheep can never run out of grass with it !
+And sheeps can never run out of grass with it !
 
 ## Configuration
 
