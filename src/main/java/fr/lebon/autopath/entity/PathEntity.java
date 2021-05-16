@@ -51,6 +51,10 @@ public class PathEntity extends BlockEntity implements Tickable{
             world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STATE_RENDER, currentRenderState + 1));
             nbTick = 0;
         }
+
+        if(world.getBlockState(pos).get(PathBlock.STEPPED) && currentRenderState == 5){
+            nbTick = 0;
+        }
         
         world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STEPPED, false));
         nbTick++;
