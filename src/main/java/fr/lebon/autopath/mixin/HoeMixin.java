@@ -37,9 +37,7 @@ public class HoeMixin {
             boolean trigger = false;
 
             if (world.getBlockState(pos).isOf(AutoPath.PATH_BLOCK)){
-               if(world.getBlockState(pos).get(PathBlock.STATE_RENDER) <= 2){ //cannot merge those 2 statements bc we must be sure the block is a path
                 trigger = true;
-               }
             }
 
             if(world.getBlockState(pos).isOf(AutoPath.LAWN_BLOCK)){
