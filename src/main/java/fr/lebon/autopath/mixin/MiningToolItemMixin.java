@@ -16,7 +16,7 @@ import net.minecraft.item.MiningToolItem;
 /**
  * Permet de placer les cannes a sucre sur les chemins du state 3 ou plus bas
  */
-public class ShovelItemMixin {
+public class MiningToolItemMixin {
 	@Inject(method = "getMiningSpeedMultiplier", at = @At("TAIL"), cancellable = true)
     private void changeEffectiveOn(ItemStack stack, BlockState state, CallbackInfoReturnable<Float> cir) {
       if(state.isOf(AutoPath.PATH_BLOCK) || state.isOf(AutoPath.LAWN_BLOCK)){
