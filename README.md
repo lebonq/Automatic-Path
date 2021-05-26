@@ -15,6 +15,8 @@ Replace grass where you walk the most !
 You can plant sugar cane, sapling, grass, flower, on the path but only if it is grassier enough.
 And also transform them into farmland by using a hoe. 
 
+At the maximun state if you walk 12 times on a state 5 block it will become permanent. You can chnage this amount or even disable this feature.
+
 ### Lawn Block
 
 ![Lawn Block](https://raw.githubusercontent.com/lebonq/Automatic-Path/master/images_description/lawn_block.png)
