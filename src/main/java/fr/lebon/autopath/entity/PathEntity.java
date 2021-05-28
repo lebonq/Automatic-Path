@@ -7,22 +7,25 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.FurnaceBlockEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class PathEntity extends BlockEntity implements Tickable{
+public class PathEntity extends BlockEntity {
     
-    private int downgradeTime;
-    private int upgradeTime;
-    private boolean permanentActivate;
-    private int steppedBeforePermanent;
+    public int downgradeTime;
+    public int upgradeTime;
+    public boolean permanentActivate;
+    public int steppedBeforePermanent;
 
-    private boolean permanent;
-    private int timesWalkOn;
-    private int nbTick; //Game will crash after 3years non stop of existing for the block 
+    public boolean permanent;
+    public int timesWalkOn;
+    public int nbTick; //Game will crash after 3years non stop of existing for the block 
 
-    public PathEntity() {
-        super(AutoPath.PATH_ENTITY);
+    public PathEntity(BlockPos pos,BlockState state) {
+        super(AutoPath.PATH_ENTITY, pos, state);
         
         AutoPathConfig config = AutoConfig.getConfigHolder(AutoPathConfig.class).getConfig();
         downgradeTime = config.downgradeTime*20;//GEt time and converte from second to int
@@ -31,9 +34,8 @@ public class PathEntity extends BlockEntity implements Tickable{
         steppedBeforePermanent = config.steppedBeforePermanent;
     }
 
-    @Override
-    public void tick() {//20 ticks 1 seconde
-        if(permanent){
+    public static void tick(World world, BlockPos pos,BlockState state, PathEntity blockEntity){//20 ticks 1 seconde
+        if(blockEntity.permanent){
             return; //Si permanent on ne fait plus rien
         } 
 
@@ -46,37 +48,37 @@ public class PathEntity extends BlockEntity implements Tickable{
 
         int currentRenderState = world.getBlockState(pos).get(PathBlock.STATE_RENDER);
 
-        if(nbTick >= downgradeTime){//7200
-            timesWalkOn = 0;
+        if(blockEntity.nbTick >= blockEntity.downgradeTime){//7200
+            blockEntity.timesWalkOn = 0;
             if(currentRenderState - 1 <= 0){
                 world.setBlockState(pos, Blocks.GRASS_BLOCK.getDefaultState());//On place un block de grass
                 return; //Le block est detruit
             }
             else{
                 world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STATE_RENDER, currentRenderState - 1));
-                nbTick = 0;
+                blockEntity.nbTick = 0;
            }
 
         }
 
-        if(world.getBlockState(pos).get(PathBlock.STEPPED) && nbTick >= upgradeTime && currentRenderState + 1 <= 5){//2400
+        if(world.getBlockState(pos).get(PathBlock.STEPPED) && blockEntity.nbTick >= blockEntity.upgradeTime && currentRenderState + 1 <= 5){//2400
             world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STATE_RENDER, currentRenderState + 1));
-            nbTick = 0;
+            blockEntity.nbTick = 0;
         }
 
-        if(world.getBlockState(pos).get(PathBlock.STEPPED) && nbTick >= upgradeTime && currentRenderState == 5){
-            if(timesWalkOn == steppedBeforePermanent){
-                permanent = true;
+        if(world.getBlockState(pos).get(PathBlock.STEPPED) && blockEntity.nbTick >= blockEntity.upgradeTime && currentRenderState == 5){
+            if(blockEntity.timesWalkOn == blockEntity.steppedBeforePermanent){
+                blockEntity.permanent = true;
             }        
 
-            if(permanentActivate){
-                timesWalkOn++;
+            if(blockEntity.permanentActivate){
+                blockEntity.timesWalkOn++;
             }
-            nbTick = 0;
+            blockEntity.nbTick = 0;
         }
         
         world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STEPPED, false));
-        nbTick++;
+        blockEntity.nbTick++;
     }
 
     @Override
@@ -90,10 +92,11 @@ public class PathEntity extends BlockEntity implements Tickable{
     }
 
     @Override
-    public void readNbt(BlockState state, NbtCompound tag) {
-        super.readNbt(state, tag);
+    public void readNbt(NbtCompound tag) {
+        super.readNbt(tag);
         nbTick = tag.getInt("nbTick");
         permanent = tag.getBoolean("permanent");
         timesWalkOn = tag.getInt("timesWalkOn");
     }
+
 }

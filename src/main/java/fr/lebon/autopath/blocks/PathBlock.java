@@ -8,7 +8,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Fertilizable;
+import net.minecraft.block.FurnaceBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -36,12 +39,17 @@ public class PathBlock extends Block implements BlockEntityProvider, Fertilizabl
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockView blockView) {
-      return new PathEntity();
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+      return new PathEntity(pos, state);
     }
 
     @Override
-    public void onSteppedOn(World world, BlockPos pos, Entity entity){
+    public <PathEntity extends BlockEntity> BlockEntityTicker<PathEntity> getTicker(World world, BlockState state, BlockEntityType<PathEntity> type) {
+        return FurnaceBlock
+    }
+
+    @Override
+    public void onSteppedOn(World world, BlockPos pos,BlockState state, Entity entity){
 
         if(!(world.isClient()) && entity.isAlive()){
             world.setBlockState(pos, world.getBlockState(pos).with(STEPPED, true));
@@ -68,4 +76,5 @@ public class PathBlock extends Block implements BlockEntityProvider, Fertilizabl
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
        GrowRoutineGrassBlock.grow(world, random, pos, state, this);
     }
+
 }

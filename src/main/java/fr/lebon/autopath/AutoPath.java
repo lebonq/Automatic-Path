@@ -13,6 +13,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
@@ -49,7 +50,7 @@ public class AutoPath implements ModInitializer{
         Registry.register(Registry.BLOCK, new Identifier("autopath", "lawn"), LAWN_BLOCK);
         Registry.register(Registry.ITEM, new Identifier("autopath", "lawn"), LAWN_ITEM);
         
-        PATH_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "autopath:path", BlockEntityType.Builder.create(PathEntity::new, PATH_BLOCK).build(null));
+        PATH_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "autopath:path", FabricBlockEntityTypeBuilder.create(PathEntity::new, PATH_BLOCK).build());
 
         log(Level.INFO, "Initializing config");
         AutoConfig.register(AutoPathConfig.class, GsonConfigSerializer::new);
