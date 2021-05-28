@@ -1,4 +1,4 @@
-![Cursedstats](https://cf.way2muchnoise.eu/automatic-path.svg) ![Cursedstats](https://cf.way2muchnoise.eu/versions/automatic-path.svg)
+![Cursedstats](http://cf.way2muchnoise.eu/automatic-path.svg) ![Cursedstats](http://cf.way2muchnoise.eu/versions/automatic-path.svg)
 
 # Automatic-Path
 
