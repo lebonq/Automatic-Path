@@ -1,4 +1,4 @@
-[![Cursedstats](http://cf.way2muchnoise.eu/automatic-path.svg)](https://www.curseforge.com/minecraft/mc-mods/automatic-path) [![Cursedstats]](https://www.curseforge.com/minecraft/mc-mods/automatic-path)(http://cf.way2muchnoise.eu/versions/automatic-path.svg)
+[![Cursedstats](http://cf.way2muchnoise.eu/automatic-path.svg)](https://www.curseforge.com/minecraft/mc-mods/automatic-path) [![Cursedstats](http://cf.way2muchnoise.eu/versions/automatic-path.svg)](https://www.curseforge.com/minecraft/mc-mods/automatic-path)
 
 # Automatic-Path
 
