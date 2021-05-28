@@ -7,8 +7,6 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.FurnaceBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -28,7 +26,7 @@ public class PathEntity extends BlockEntity {
         super(AutoPath.PATH_ENTITY, pos, state);
         
         AutoPathConfig config = AutoConfig.getConfigHolder(AutoPathConfig.class).getConfig();
-        downgradeTime = config.downgradeTime*20;//GEt time and converte from second to int
+        downgradeTime = config.downgradeTime*20;//Get time and convert from second to int
         upgradeTime = config.upgradeTime*20;
         permanentActivate = config.permanentPath;
         steppedBeforePermanent = config.steppedBeforePermanent;

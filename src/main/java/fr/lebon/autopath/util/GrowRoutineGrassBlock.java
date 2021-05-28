@@ -15,7 +15,7 @@ import net.minecraft.world.gen.feature.FlowerFeature;
 public class GrowRoutineGrassBlock {
     
     private GrowRoutineGrassBlock(){//Util class
-};
+}
 
     public static void grow(ServerWorld world, Random random, BlockPos pos, BlockState state,Block callerBlock) {
         BlockPos blockPos = pos.up();
