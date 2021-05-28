@@ -7,7 +7,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Tickable;
 
 public class PathEntity extends BlockEntity implements Tickable{
@@ -80,8 +80,8 @@ public class PathEntity extends BlockEntity implements Tickable{
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
-      super.toTag(tag);
+    public NbtCompound writeNbt(NbtCompound tag) {
+      super.writeNbt(tag);
       tag.putInt("nbTick", nbTick);
       tag.putBoolean("permanent", permanent);
       tag.putInt("timesWalkOn", timesWalkOn);
@@ -90,8 +90,8 @@ public class PathEntity extends BlockEntity implements Tickable{
     }
 
     @Override
-    public void fromTag(BlockState state, CompoundTag tag) {
-        super.fromTag(state, tag);
+    public void readNbt(BlockState state, NbtCompound tag) {
+        super.readNbt(state, tag);
         nbTick = tag.getInt("nbTick");
         permanent = tag.getBoolean("permanent");
         timesWalkOn = tag.getInt("timesWalkOn");
