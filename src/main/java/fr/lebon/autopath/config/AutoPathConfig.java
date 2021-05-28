@@ -12,7 +12,7 @@ public class AutoPathConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip()
     public int upgradeTime = 280;
     @ConfigEntry.Gui.Tooltip()
-    public boolean permanentPath = true;
+    public boolean permanentPath = false;
     @ConfigEntry.Gui.Tooltip()
     public int steppedBeforePermanent = 12;
 

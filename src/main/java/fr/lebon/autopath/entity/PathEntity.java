@@ -64,7 +64,7 @@ public class PathEntity extends BlockEntity implements Tickable{
             nbTick = 0;
         }
 
-        if(world.getBlockState(pos).get(PathBlock.STEPPED) && currentRenderState == 5){
+        if(world.getBlockState(pos).get(PathBlock.STEPPED) && nbTick >= upgradeTime && currentRenderState == 5){
             if(timesWalkOn == steppedBeforePermanent){
                 permanent = true;
             }        
