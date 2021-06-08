@@ -1,3 +1,5 @@
+[![Cursedstats](http://cf.way2muchnoise.eu/automatic-path.svg)](https://www.curseforge.com/minecraft/mc-mods/automatic-path) [![Cursedstats](http://cf.way2muchnoise.eu/versions/automatic-path.svg)](https://www.curseforge.com/minecraft/mc-mods/automatic-path)
+
 # Automatic-Path
 
 Little Minecraft fabric mod. Which transforms grass into non-permanant path where players, mobs and monsters walk.  
