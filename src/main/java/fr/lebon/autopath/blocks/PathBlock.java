@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 public class PathBlock extends BlockWithEntity implements BlockEntityProvider, Fertilizable{
 
     public static final IntProperty STATE_RENDER = IntProperty.of("state_render",1,5);
-    public static final BooleanProperty  STEPPED = BooleanProperty .of("stepped");
+    public static final BooleanProperty STEPPED = BooleanProperty.of("stepped");
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
@@ -30,8 +30,9 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
 
     public PathBlock(Settings settings) {
         super(settings);
-        setDefaultState(getStateManager().getDefaultState().with(STEPPED, false));
-        setDefaultState(getStateManager().getDefaultState().with(STATE_RENDER, 1));
+        setDefaultState(getStateManager().getDefaultState()
+            .with(STEPPED, false)
+            .with(STATE_RENDER, 1));
     }
 
     @Override
@@ -41,7 +42,7 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-      return new PathEntity(pos, state);
+        return new PathEntity(pos, state);
     }
 
     @Override
