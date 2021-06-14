@@ -1,9 +1,34 @@
 {
   "variants": {
-    "state_render=1": { "model": "autopath:block/path_level_1" },
-    "state_render=2": { "model": "autopath:block/path_level_2" },
-    "state_render=3": { "model": "autopath:block/path_level_3" },
-    "state_render=4": { "model": "autopath:block/path_level_4" },
-    "state_render=5": { "model": "autopath:block/path_level_5" }
+    "state_render=1": [
+      { "model": "autopath:block/path_level_1" },
+      { "model": "autopath:block/path_level_1", "y": 90 },
+      { "model": "autopath:block/path_level_1", "y": 180 },
+      { "model": "autopath:block/path_level_1", "y": 270 }
+    ],
+    "state_render=2": [
+      { "model": "autopath:block/path_level_2" },
+      { "model": "autopath:block/path_level_2", "y": 90 },
+      { "model": "autopath:block/path_level_2", "y": 180 },
+      { "model": "autopath:block/path_level_2", "y": 270 }
+    ],
+    "state_render=3": [
+      { "model": "autopath:block/path_level_3" },
+      { "model": "autopath:block/path_level_3", "y": 90 },
+      { "model": "autopath:block/path_level_3", "y": 180 },
+      { "model": "autopath:block/path_level_3", "y": 270 }
+    ],
+    "state_render=4": [
+      { "model": "autopath:block/path_level_4" },
+      { "model": "autopath:block/path_level_4", "y": 90 },
+      { "model": "autopath:block/path_level_4", "y": 180 },
+      { "model": "autopath:block/path_level_4", "y": 270 }
+    ],
+    "state_render=5": [
+      { "model": "autopath:block/path_level_5" },
+      { "model": "autopath:block/path_level_5", "y": 90 },
+      { "model": "autopath:block/path_level_5", "y": 180 },
+      { "model": "autopath:block/path_level_5", "y": 270 }
+    ]
   }
 }
