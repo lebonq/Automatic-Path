@@ -22,6 +22,9 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     public static final IntProperty STATE_RENDER = IntProperty.of("state_render",1,5);
     public static final BooleanProperty STEPPED = BooleanProperty.of("stepped");
 
+    /** setBlockState() flags that won't activate observers (and skips unnecessary lighting updates) */
+    public static final int SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES = Block.NOTIFY_LISTENERS | Block.FORCE_STATE | Block.SKIP_LIGHTING_UPDATES;
+
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
         stateManager.add(STEPPED);
@@ -54,7 +57,9 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     @Override
     public void onSteppedOn(World world, BlockPos pos,BlockState state, Entity entity){
         if(!(world.isClient()) && entity.isAlive()){
-            world.setBlockState(pos, world.getBlockState(pos).with(STEPPED, true));
+            if (!state.get(STEPPED)) {
+                world.setBlockState(pos, state.with(STEPPED, true), SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES);
+            }
         }
     }
 
@@ -76,7 +81,7 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
      * We want the same behavior as GrassBlock so I copy paste Mojang code for grass block
      */
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
-       GrowRoutineGrassBlock.grow(world, random, pos, state, this);
+        GrowRoutineGrassBlock.grow(world, random, pos, state, this);
     }
 
 }
