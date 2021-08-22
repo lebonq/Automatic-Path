@@ -4,6 +4,7 @@ import fr.lebon.autopath.AutoPath;
 import fr.lebon.autopath.config.AutoPathConfig;
 import fr.lebon.autopath.blocks.PathBlock;
 import me.shedaniel.autoconfig.AutoConfig;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -32,61 +33,63 @@ public class PathEntity extends BlockEntity {
         steppedBeforePermanent = config.steppedBeforePermanent;
     }
 
-    public static void tick(World world, BlockPos pos,BlockState state, PathEntity blockEntity){//20 ticks 1 seconde
-        if(blockEntity.permanent){
-            return; //Si permanent on ne fait plus rien
-        } 
+    public static void tick(World world, BlockPos pos, BlockState state, PathEntity blockEntity){//20 ticks 1 seconde
+        if (blockEntity.permanent) return; //Si permanent on ne fait plus rien
+        if (world.isClient()) return;
 
-        if(world.isClient()) return;
-
-        if(world.getBlockState(pos.up()).isSolidBlock(world, pos.up())){//si le block au dessus est solide
-            world.setBlockState(pos, Blocks.DIRT.getDefaultState());
+        // turn covered path to dirt
+        BlockPos upPos = pos.up();
+        if (world.getBlockState(upPos).isSolidBlock(world, upPos)) { // si le block au dessus est solide
+            world.setBlockState(pos, Blocks.DIRT.getDefaultState(), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES);
             return;
         }
 
-        int currentRenderState = world.getBlockState(pos).get(PathBlock.STATE_RENDER);
+        boolean stepped = state.get(PathBlock.STEPPED);
+        int renderState = state.get(PathBlock.STATE_RENDER);
 
-        if(blockEntity.nbTick >= blockEntity.downgradeTime){//7200
-            blockEntity.timesWalkOn = 0;
-            if(currentRenderState - 1 <= 0){
-                world.setBlockState(pos, Blocks.GRASS_BLOCK.getDefaultState());//On place un block de grass
-                return; //Le block est detruit
-            }
-            else{
-                world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STATE_RENDER, currentRenderState - 1));
+        if (stepped && blockEntity.nbTick >= blockEntity.upgradeTime) { // default 2400
+
+            // upgrade render state if possible
+            if (renderState + 1 <= 5) {
+                state = state.with(PathBlock.STATE_RENDER, renderState + 1);
                 blockEntity.nbTick = 0;
-           }
-
-        }
-
-        if(world.getBlockState(pos).get(PathBlock.STEPPED) && blockEntity.nbTick >= blockEntity.upgradeTime && currentRenderState + 1 <= 5){//2400
-            world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STATE_RENDER, currentRenderState + 1));
-            blockEntity.nbTick = 0;
-        }
-
-        if(world.getBlockState(pos).get(PathBlock.STEPPED) && blockEntity.nbTick >= blockEntity.upgradeTime && currentRenderState == 5){
-            if(blockEntity.timesWalkOn == blockEntity.steppedBeforePermanent){
-                blockEntity.permanent = true;
-            }        
-
-            if(blockEntity.permanentActivate){
+            // try turning path to permanent path
+            } else if (renderState == 5) {
+                if (blockEntity.permanentActivate) {
+                    if (blockEntity.timesWalkOn == blockEntity.steppedBeforePermanent) {
+                        blockEntity.permanent = true;
+                    }
+                }
                 blockEntity.timesWalkOn++;
+                blockEntity.nbTick = 0;
             }
+
+        } else if (blockEntity.nbTick >= blockEntity.downgradeTime) { // default 7200
+
+            if (renderState - 1 <= 0) {
+                // downgrade back to grass
+                world.setBlockState(pos, Blocks.GRASS_BLOCK.getDefaultState(), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES);
+                return; // Le block est detruit
+            }
+
+            // downgrade render state
+            state = state.with(PathBlock.STATE_RENDER, renderState - 1);
+            blockEntity.timesWalkOn = 0;
             blockEntity.nbTick = 0;
         }
-        
-        world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STEPPED, false));
+
+        world.setBlockState(pos, state.with(PathBlock.STEPPED, false), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES);
         blockEntity.nbTick++;
     }
 
     @Override
     public NbtCompound writeNbt(NbtCompound tag) {
-      super.writeNbt(tag);
-      tag.putInt("nbTick", nbTick);
-      tag.putBoolean("permanent", permanent);
-      tag.putInt("timesWalkOn", timesWalkOn);
- 
-      return tag;
+        super.writeNbt(tag);
+        tag.putInt("nbTick", nbTick);
+        tag.putBoolean("permanent", permanent);
+        tag.putInt("timesWalkOn", timesWalkOn);
+
+        return tag;
     }
 
     @Override
