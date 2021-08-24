@@ -40,7 +40,7 @@ public class PathEntity extends BlockEntity {
         // turn covered path to dirt
         BlockPos upPos = pos.up();
         if (world.getBlockState(upPos).isSolidBlock(world, upPos)) { // si le block au dessus est solide
-            world.setBlockState(pos, Blocks.DIRT.getDefaultState(), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES);
+            world.setBlockState(pos, Blocks.DIRT.getDefaultState());
             return;
         }
 
@@ -68,7 +68,7 @@ public class PathEntity extends BlockEntity {
 
             if (renderState - 1 <= 0) {
                 // downgrade back to grass
-                world.setBlockState(pos, Blocks.GRASS_BLOCK.getDefaultState(), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES);
+                world.setBlockState(pos, Blocks.GRASS_BLOCK.getDefaultState());
                 return; // Le block est detruit
             }
 
