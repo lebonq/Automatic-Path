@@ -78,7 +78,7 @@ public class PathEntity extends BlockEntity {
             blockEntity.nbTick = 0;
         }
 
-        world.setBlockState(pos, state.with(PathBlock.STEPPED, false), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES);
+        world.setBlockState(pos, state.with(PathBlock.STEPPED, false), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES); // We use our custom flag  because we dont need to notify neigbours
         blockEntity.nbTick++;
     }
 
