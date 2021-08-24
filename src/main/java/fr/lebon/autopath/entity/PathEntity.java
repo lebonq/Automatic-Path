@@ -75,7 +75,7 @@ public class PathEntity extends BlockEntity implements Tickable{
             nbTick = 0;
         }
         
-        world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STEPPED, false));
+        world.setBlockState(pos, world.getBlockState(pos).with(PathBlock.STEPPED, false), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES); // We use our custom flag  because we dont need to notify neigbours
         nbTick++;
     }
 
