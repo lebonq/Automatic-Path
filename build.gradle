@@ -26,12 +26,12 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	modApi("me.shedaniel.cloth:cloth-config-fabric:5.0.34") { //For config
+	modApi("me.shedaniel.cloth:cloth-config-fabric:5.0.38") { //For config
         exclude(group: "net.fabricmc.fabric-api")
     }
-	include "me.shedaniel.cloth:cloth-config-fabric:5.0.34"
+	include "me.shedaniel.cloth:cloth-config-fabric:5.0.38"
 
-	modImplementation "com.terraformersmc:modmenu:2.0.0-beta.5"
+	modImplementation "com.terraformersmc:modmenu:2.0.5"
 }
 
 processResources {
