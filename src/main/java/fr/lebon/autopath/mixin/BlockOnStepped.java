@@ -20,7 +20,7 @@ public class BlockOnStepped {
 	@Inject(method = "onSteppedOn", cancellable = true, at = @At(value = "HEAD"))
     private void transformGrassToPathWhenSteppedOn(World world, BlockPos pos, BlockState state, Entity entity,CallbackInfo cir) {
         if(state.isOf(Blocks.GRASS_BLOCK) && (entity instanceof LivingEntity)){ //select grass and if entity is a mob or player
-            world.setBlockState(pos,AutoPath.PATH_BLOCK.getDefaultState(), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES); //On remplace par un block path
+            world.setBlockState(pos,AutoPath.PATH_BLOCK.getDefaultState()); // We replace by a block path and notify other
             cir.cancel();
         }
     }
