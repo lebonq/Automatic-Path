@@ -2,6 +2,7 @@ package fr.lebon.autopath.mixin;
 
 import java.util.Iterator;
 
+import net.minecraft.block.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -9,9 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import fr.lebon.autopath.AutoPath;
 import fr.lebon.autopath.blocks.PathBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +25,6 @@ public class PathBlockSugarCane {
 	@Inject(method = "canPlaceAt", at = @At("TAIL"), cancellable = true)
     private void test(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockState = world.getBlockState(pos.down());
-
         boolean trigger = false;
 
         if (blockState.isOf(AutoPath.PATH_BLOCK)) {
