@@ -3,6 +3,7 @@ package fr.lebon.autopath.mixin;
 
 import java.util.function.Consumer;
 
+import net.minecraft.item.ShovelItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -35,11 +36,7 @@ public class HoeMixin {
         if (context.getSide() != Direction.DOWN && world.getBlockState(pos.up()).isAir()) {
             boolean trigger = false;
 
-            if (world.getBlockState(pos).isOf(AutoPath.PATH_BLOCK)){
-                trigger = true;
-            }
-
-            if(world.getBlockState(pos).isOf(AutoPath.LAWN_BLOCK)){
+            if (world.getBlockState(pos).isOf(AutoPath.PATH_BLOCK) || world.getBlockState(pos).isOf(AutoPath.LAWN_BLOCK)){
                 trigger = true;
             }
 
