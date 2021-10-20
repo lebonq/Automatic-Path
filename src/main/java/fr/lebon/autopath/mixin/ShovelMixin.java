@@ -48,7 +48,6 @@ public class ShovelMixin {
             if (blockState2 != null && world.getBlockState(blockPos.up()).isAir()) {
                 world.playSound(playerEntity, blockPos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 blockState3 = blockState2;
-                AutoPath.log(Level.INFO, "Shovel work");
             } else if (blockState.getBlock() instanceof CampfireBlock && (Boolean)blockState.get(CampfireBlock.LIT)) {
                 if (!world.isClient()) {
                     world.syncWorldEvent((PlayerEntity)null, 1009, blockPos, 0);
