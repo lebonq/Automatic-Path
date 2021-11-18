@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "autopath:path"
+    "autopath:path",
+    "autopath:lawn"
   ]
 }
