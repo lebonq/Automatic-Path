@@ -1,6 +1,8 @@
 {
     "block.autopath.path": "Path",
     "block.autopath.lawn": "Lawn",
+    "text.autoconfig.autopath.option.enableMobPathCreation" : "Enable Mob Path",
+    "text.autoconfig.autopath.option.enableMobPathCreation.@Tooltip" : "If enable, every mob  (monsters or animals) will create path.",
     "text.autoconfig.autopath.option.downgradeTime" : "Downgrade Time",
     "text.autoconfig.autopath.option.downgradeTime.@Tooltip" : "Time in seconds the path will become more grassier",
     "text.autoconfig.autopath.option.upgradeTime" : "Upgrade Time",

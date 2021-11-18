@@ -8,6 +8,8 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 @Config(name = "autopath")
 public class AutoPathConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip()
+    public boolean enableMobPathCreation = false; //Mob aren't enable by default for performance issue
+    @ConfigEntry.Gui.Tooltip()
     public int downgradeTime = 760;
     @ConfigEntry.Gui.Tooltip()
     public int upgradeTime = 280;

@@ -31,6 +31,7 @@ public class PathEntity extends BlockEntity {
         upgradeTime = config.upgradeTime*20;
         permanentActivate = config.permanentPath;
         steppedBeforePermanent = config.steppedBeforePermanent;
+        //TODO Move those declaration, call at every creation of a path not efficient
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, PathEntity blockEntity){//20 ticks 1 seconde
