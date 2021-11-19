@@ -7,7 +7,7 @@ Little Minecraft fabric mod. Which transforms grass into non-permanent path wher
 [Fabric Loader](https://fabricmc.net/use/ "Download Fabric Loader")   
 ![Fabric API needed](https://i.imgur.com/5J6bV5W.png)
 
-##Path Creation
+## Path Creation
 
 **Path creation by mobs is disable by default**.  
 
