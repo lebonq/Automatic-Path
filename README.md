@@ -38,6 +38,7 @@ And sheeps can never run out of grass with it !
 You can change the amount of times between 2 states.   
 Enable path creation by mobs.
 Enable permanent path.  
+Enable permanent path to turn into vanilla dirt path block.
 
 - You can do in-game via ModMenu.   
 - Or for server and client whitout ModMenu you can configure it directly in the file whit is config/autopath.json    
