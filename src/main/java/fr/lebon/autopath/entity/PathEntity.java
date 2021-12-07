@@ -18,6 +18,7 @@ public class PathEntity extends BlockEntity {
     public int upgradeTime;
     public boolean permanentActivate;
     public int steppedBeforePermanent;
+    public boolean permanentAsDirtPath;
 
     public boolean permanent;
     public int timesWalkOn;
@@ -31,6 +32,7 @@ public class PathEntity extends BlockEntity {
         upgradeTime = config.upgradeTime*20;
         permanentActivate = config.permanentPath;
         steppedBeforePermanent = config.steppedBeforePermanent;
+        permanentAsDirtPath = config.permanentAsDirtPath;
         //TODO Move those declaration, call at every creation of a path not efficient
     }
 
@@ -58,7 +60,13 @@ public class PathEntity extends BlockEntity {
             } else if (renderState == 5) {
                 if (blockEntity.permanentActivate) {
                     if (blockEntity.timesWalkOn == blockEntity.steppedBeforePermanent) {
-                        blockEntity.permanent = true;
+                        if (blockEntity.permanentAsDirtPath) {
+                            world.setBlockState(pos, Blocks.DIRT_PATH.getDefaultState());
+                            return;
+                        }
+                        else{
+                            blockEntity.permanent = true;
+                        }
                     }
                 }
                 blockEntity.timesWalkOn++;
