@@ -17,5 +17,6 @@ public class AutoPathConfig implements ConfigData {
     public boolean permanentPath = false;
     @ConfigEntry.Gui.Tooltip()
     public int steppedBeforePermanent = 12;
-
+    @ConfigEntry.Gui.Tooltip()
+    public boolean permanentAsDirtPath = false;
 }
