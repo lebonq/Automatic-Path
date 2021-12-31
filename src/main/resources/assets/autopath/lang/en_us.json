@@ -10,5 +10,7 @@
     "text.autoconfig.autopath.option.permanentPath" : "Permanent path",
     "text.autoconfig.autopath.option.permanentPath.@Tooltip" : "Enable permanent path",
     "text.autoconfig.autopath.option.steppedBeforePermanent" : "Number of step until permanent",
-    "text.autoconfig.autopath.option.steppedBeforePermanent.@Tooltip" : "Number of times the block is stepped before becoming permanent"
+    "text.autoconfig.autopath.option.steppedBeforePermanent.@Tooltip" : "Number of times the block is stepped before becoming permanent",
+    "text.autoconfig.autopath.option.permanentAsDirtPath" : "Enable vanilla path block",
+    "text.autoconfig.autopath.option.permanentAsDirtPath@ToolTip" : "Force permanent path to be transform into vanilla path block"
 }
