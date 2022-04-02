@@ -9,9 +9,7 @@
     "PathBlockSugarCane",
     "PathBlockSapling",
     "HoeMixin",
-    "MiningToolItemMixin",
-    "EatGoalCanStart",
-    "ShovelMixin"
+    "EatGoalCanStart"
   ],
   "server": [
   ],

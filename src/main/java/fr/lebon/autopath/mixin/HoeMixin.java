@@ -24,9 +24,7 @@ import net.minecraft.world.World;
 
 
 @Mixin(HoeItem.class) 
-/**
- * Permet de placer les cannes a sucre sur les chemins du state 3 ou plus bas
- */
+
 public class HoeMixin {
 	@Inject(method = "useOnBlock", cancellable = true, at = @At("HEAD"))
     private void HoeModification(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
