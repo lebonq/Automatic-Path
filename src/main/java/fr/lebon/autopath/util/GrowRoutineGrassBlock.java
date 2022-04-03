@@ -2,7 +2,6 @@ package fr.lebon.autopath.util;
 
 import java.util.List;
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -10,10 +9,15 @@ import net.minecraft.block.Fertilizable;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.FlowerFeature;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
+import net.minecraft.world.gen.feature.VegetationPlacedFeatures;
+
 
 public class GrowRoutineGrassBlock {
-    
+
     private GrowRoutineGrassBlock(){//Util class
 }
 
@@ -38,25 +42,20 @@ public class GrowRoutineGrassBlock {
             }
 
             if (blockState2.isAir()) {
-                BlockState blockState4;
-                if (random.nextInt(8) == 0) {
-                List<ConfiguredFeature<?, ?>> list = world.getBiome(blockPos2).getGenerationSettings().getFlowerFeatures();
-                if (list.isEmpty()) {
-                    continue;
-                }
+				RegistryEntry registryEntry;
+				if (random.nextInt(8) == 0) {
+					List<ConfiguredFeature<?, ?>> list = ((Biome)world.getBiome(blockPos2).value()).getGenerationSettings().getFlowerFeatures();
+					if (list.isEmpty()) {
+						continue;
+					}
 
-                ConfiguredFeature<?, ?> configuredFeature = (ConfiguredFeature)list.get(0);
-                FlowerFeature flowerFeature = (FlowerFeature)configuredFeature.feature;
-                blockState4 = flowerFeature.getFlowerState(random, blockPos2, configuredFeature.getConfig());
-                } else {
-                blockState4 = blockState;
-                }
+					registryEntry = ((RandomPatchFeatureConfig)((ConfiguredFeature)list.get(0)).config()).feature();
+				} else {
+					registryEntry = VegetationPlacedFeatures.GRASS_BONEMEAL;
+				}
 
-                if (blockState4.canPlaceAt(world, blockPos2)) {
-                world.setBlockState(blockPos2, blockState4, 3);
-                }
-            }
+				((PlacedFeature)registryEntry.value()).generateUnregistered(world, world.getChunkManager().getChunkGenerator(), random, blockPos2);
+			}
         }
-
     }
 }

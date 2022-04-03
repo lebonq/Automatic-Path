@@ -92,13 +92,13 @@ public class PathEntity extends BlockEntity {
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
+    public void writeNbt(NbtCompound tag) {
         super.writeNbt(tag);
         tag.putInt("nbTick", nbTick);
         tag.putBoolean("permanent", permanent);
         tag.putInt("timesWalkOn", timesWalkOn);
 
-        return tag;
+        super.writeNbt(tag);
     }
 
     @Override

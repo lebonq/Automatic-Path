@@ -31,8 +31,8 @@ public class AutoPath implements ModInitializer{
         public static final String MOD_ID = "autopath";
         public static final String MOD_NAME = "Automatic Path";
 
-        public static final Block PATH_BLOCK = new PathBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRASS).breakByHand(true));
-        public static final Block LAWN_BLOCK = new LawnBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRASS).breakByHand(true));
+        public static final Block PATH_BLOCK = new PathBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRASS));
+        public static final Block LAWN_BLOCK = new LawnBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRASS));
 
         public static final BlockItem LAWN_ITEM = new BlockItem(LAWN_BLOCK, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
         public static final BlockItem PATH_ITEM = new BlockItem(PATH_BLOCK, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
