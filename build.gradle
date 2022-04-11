@@ -100,7 +100,7 @@ curseforge {
     releaseType = 'release'
     addGameVersion "$project.minecraft_version"
 	addGameVersion "Fabric"
-	addGameVersion "Java 16"
+	addGameVersion "Java 17"
 
     mainArtifact("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") {
       displayName = "Automatic-Path-${project.version}"
