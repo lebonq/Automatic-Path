@@ -1,4 +1,5 @@
 plugins {
+	id "com.matthewprenger.cursegradle" version "1.4.0"
 	id 'fabric-loom' version '0.9-SNAPSHOT'
 	id 'maven-publish'
 }
@@ -87,4 +88,26 @@ publishing {
 		// uncomment to publish to the local maven
 		// mavenLocal()
 	}
+}
+
+curseforge {
+  apiKey = "$System.env.APICURSE"
+  project {
+    id = '460405'
+	changelogType = 'markdown'
+    changelog = file("changelog.md")
+    releaseType = 'release'
+    addGameVersion "$project.minecraft_version"
+	addGameVersion "Fabric"
+	addGameVersion "Java 16"
+
+    mainArtifact("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") {
+      displayName = "Automatic-Path-${project.version}"
+	   relations {
+        requiredDependency 'fabric-api' // API is required
+        embeddedLibrary 'cloth-config' 
+		optionalDependency 'modmenu'
+	   }
+    }
+  }
 }
