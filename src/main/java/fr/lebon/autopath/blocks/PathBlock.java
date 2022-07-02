@@ -72,15 +72,12 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     }
 
     @Override
-    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+    public boolean canGrow(World world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    /**
-     * We want the same behavior as GrassBlock so I copy paste Mojang code for grass block
-     */
-    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+    public void grow(ServerWorld world, net.minecraft.util.math.random.Random random, BlockPos pos, BlockState state) {
         GrowRoutineGrassBlock.grow(world, random, pos, state, this);
     }
 

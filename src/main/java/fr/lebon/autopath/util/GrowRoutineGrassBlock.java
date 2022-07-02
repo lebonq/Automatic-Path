@@ -1,7 +1,6 @@
 package fr.lebon.autopath.util;
 
 import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -14,6 +13,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
 import net.minecraft.world.gen.feature.VegetationPlacedFeatures;
+import net.minecraft.util.math.random.Random;
 
 
 public class GrowRoutineGrassBlock {

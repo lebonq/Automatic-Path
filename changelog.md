@@ -1,1 +1,1 @@
-Fix enderman bug
+Bump to 1.19
