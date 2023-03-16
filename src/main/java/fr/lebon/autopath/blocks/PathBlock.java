@@ -15,6 +15,7 @@ import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 public class PathBlock extends BlockWithEntity implements BlockEntityProvider, Fertilizable{
@@ -64,7 +65,7 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     }
 
     @Override
-    public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
         if(world.getBlockState(pos).get(STATE_RENDER) <= 3){ //if state ok so it can be fertilize
             return world.getBlockState(pos.up()).isAir();
         }

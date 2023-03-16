@@ -1,6 +1,10 @@
 package fr.lebon.autopath;
 
 
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.item.*;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,12 +21,8 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class AutoPath implements ModInitializer{
 
@@ -34,8 +34,9 @@ public class AutoPath implements ModInitializer{
         public static final Block PATH_BLOCK = new PathBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRASS));
         public static final Block LAWN_BLOCK = new LawnBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRASS));
 
-        public static final BlockItem LAWN_ITEM = new BlockItem(LAWN_BLOCK, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-        public static final BlockItem PATH_ITEM = new BlockItem(PATH_BLOCK, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
+        public static final BlockItem LAWN_ITEM = new BlockItem(LAWN_BLOCK, new Item.Settings());
+        public static final BlockItem PATH_ITEM = new BlockItem(PATH_BLOCK, new Item.Settings());
+
         public static BlockEntityType<PathEntity> PATH_ENTITY;
 
     @Override
@@ -44,13 +45,15 @@ public class AutoPath implements ModInitializer{
 
         log(Level.INFO, "Register Blocks");
 
-        Registry.register(Registry.BLOCK, new Identifier("autopath", "path"), PATH_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("autopath", "path"), PATH_ITEM);
+        Registry.register(Registries.BLOCK, new Identifier("autopath", "path"), PATH_BLOCK);
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> entries.add(PATH_ITEM));
+        Registry.register(Registries.ITEM, new Identifier("autopath", "path"), PATH_ITEM);
 
-        Registry.register(Registry.BLOCK, new Identifier("autopath", "lawn"), LAWN_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("autopath", "lawn"), LAWN_ITEM);
-        
-        PATH_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "autopath:path", FabricBlockEntityTypeBuilder.create(PathEntity::new, PATH_BLOCK).build());
+        Registry.register(Registries.BLOCK, new Identifier("autopath", "lawn"), LAWN_BLOCK);
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> entries.add(LAWN_ITEM));
+        Registry.register(Registries.ITEM, new Identifier("autopath", "lawn"), LAWN_ITEM);
+
+        PATH_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, "autopath:path", FabricBlockEntityTypeBuilder.create(PathEntity::new, PATH_BLOCK).build());
 
         log(Level.INFO, "Initializing config");
         AutoConfig.register(AutoPathConfig.class, GsonConfigSerializer::new);
@@ -59,5 +62,6 @@ public class AutoPath implements ModInitializer{
     public static void log(Level level, String message){
         LOGGER.log(level, "["+MOD_NAME+"] " + message);
     }
+
 
 }

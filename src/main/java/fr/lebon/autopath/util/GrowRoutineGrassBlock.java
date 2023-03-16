@@ -1,14 +1,14 @@
 package fr.lebon.autopath.util;
 
 import java.util.List;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Fertilizable;
+import java.util.Optional;
+
+import net.minecraft.block.*;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
@@ -24,6 +24,7 @@ public class GrowRoutineGrassBlock {
     public static void grow(ServerWorld world, Random random, BlockPos pos, BlockState state,Block callerBlock) {
         BlockPos blockPos = pos.up();
         BlockState blockState = Blocks.GRASS.getDefaultState();
+        Optional<RegistryEntry.Reference<PlacedFeature>> optional = world.getRegistryManager().get(RegistryKeys.PLACED_FEATURE).getEntry(VegetationPlacedFeatures.GRASS_BONEMEAL);
 
         label48:
         for(int i = 0; i < 128; ++i) {
@@ -51,7 +52,11 @@ public class GrowRoutineGrassBlock {
 
 					registryEntry = ((RandomPatchFeatureConfig)((ConfiguredFeature)list.get(0)).config()).feature();
 				} else {
-					registryEntry = VegetationPlacedFeatures.GRASS_BONEMEAL;
+					if (!optional.isPresent()) {
+						continue;
+					}
+
+					registryEntry = (RegistryEntry)optional.get();
 				}
 
 				((PlacedFeature)registryEntry.value()).generateUnregistered(world, world.getChunkManager().getChunkGenerator(), random, blockPos2);

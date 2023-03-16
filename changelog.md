@@ -1,1 +1,1 @@
-Bump to 1.19
+Bump to 1.19.3
