@@ -19,7 +19,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
@@ -31,8 +30,8 @@ public class AutoPath implements ModInitializer{
         public static final String MOD_ID = "autopath";
         public static final String MOD_NAME = "Automatic Path";
 
-        public static final Block PATH_BLOCK = new PathBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRASS));
-        public static final Block LAWN_BLOCK = new LawnBlock(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRASS));
+        public static final Block PATH_BLOCK = new PathBlock(FabricBlockSettings.create().hardness(0.5f).sounds(BlockSoundGroup.GRASS));
+        public static final Block LAWN_BLOCK = new LawnBlock(FabricBlockSettings.create().hardness(0.5f).sounds(BlockSoundGroup.GRASS));
 
         public static final BlockItem LAWN_ITEM = new BlockItem(LAWN_BLOCK, new Item.Settings());
         public static final BlockItem PATH_ITEM = new BlockItem(PATH_BLOCK, new Item.Settings());

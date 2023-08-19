@@ -24,7 +24,8 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     public static final BooleanProperty STEPPED = BooleanProperty.of("stepped");
 
     /** setBlockState() flags that won't activate observers (and skips unnecessary lighting updates) */
-    public static final int SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES = Block.NOTIFY_LISTENERS | Block.FORCE_STATE | Block.SKIP_LIGHTING_UPDATES;
+    // TODO : fix the SKIP_LIGHTING_UPDATES flag not working anymore
+    public static final int SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES = Block.NOTIFY_LISTENERS | Block.FORCE_STATE; // | Block.SKIP_LIGHTING_UPDATES;
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
