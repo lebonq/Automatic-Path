@@ -13,7 +13,6 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
@@ -53,7 +52,7 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : checkType(type, AutoPath.PATH_ENTITY , PathEntity::tick);
+        return world.isClient ? null : validateTicker(type, AutoPath.PATH_ENTITY , PathEntity::tick);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     }
 
     @Override
-    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
         if(world.getBlockState(pos).get(STATE_RENDER) <= 3){ //if state ok so it can be fertilize
             return world.getBlockState(pos.up()).isAir();
         }
