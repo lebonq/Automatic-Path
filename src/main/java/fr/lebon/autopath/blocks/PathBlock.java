@@ -2,6 +2,7 @@ package fr.lebon.autopath.blocks;
 
 import java.util.Random;
 
+import com.mojang.serialization.MapCodec;
 import fr.lebon.autopath.AutoPath;
 import fr.lebon.autopath.entity.PathEntity;
 import fr.lebon.autopath.util.GrowRoutineGrassBlock;
@@ -37,6 +38,11 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
         setDefaultState(getStateManager().getDefaultState()
             .with(STEPPED, false)
             .with(STATE_RENDER, 1));
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return null;
     }
 
     @Override
