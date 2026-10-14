@@ -119,7 +119,7 @@ if (!(releaseType in ["stable", "beta", "alpha"])) {
 
 publishMods {
     file = tasks.remapJar.archiveFile
-    version = "${project.mod_version}+mc${project.minecraft_version}"
+    version = "${project.mod_version}"
     displayName = "Automatic Path ${project.mod_version} — Minecraft ${project.minecraft_version}"
     changelog = providers.fileContents(layout.projectDirectory.file("changelog.md")).asText
     type = me.modmuss50.mpp.ReleaseType.valueOf(releaseType.toUpperCase(java.util.Locale.ROOT))
