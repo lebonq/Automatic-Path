@@ -51,39 +51,3 @@ Creates path for the player...
 
 ![Screen 2](https://raw.githubusercontent.com/lebonq/Automatic-Path/master/images_description/screen2.png)
 ...but also for mobs/monsters !- - 
-
-## Supported Fabric versions
-
-The `main` branch builds separate Fabric JARs for Minecraft **1.20.1**, **1.21.1**,
-and **1.21.11**. Each JAR supports its named Minecraft version only.
-
-Use **JDK 21** to run Gradle. The 1.20.1 artifact is compiled for Java 17;
-the 1.21.1 and 1.21.11 artifacts require Java 21.
-
-```sh
-# Build and run the game tests for one target:
-./gradlew build -Pminecraft_version=1.20.1
-./gradlew build -Pminecraft_version=1.21.1
-./gradlew build -Pminecraft_version=1.21.11
-
-# Build and test all three targets sequentially:
-bash scripts/build-all.sh
-```
-
-The default target is 1.21.11. Outputs are isolated under
-`build/<minecraft-version>/libs/`, for example
-`build/1.20.1/libs/autopath-mc1.20.1-1.5.jar`.
-Development worlds are isolated under `run/<minecraft-version>/`.
-Use the same `-Pminecraft_version=...` option with `runClient`, `runServer`,
-and `publishMods` to select a target.
-
-Gameplay code, configuration, mixins, and canonical resources live in `src/main`.
-Minecraft API adapters, block implementations, rendering, and game tests live in
-`versions/<minecraft-version>/src/`. Dependency versions are pinned in each
-version's `gradle.properties`. The resource task adapts the shared recipes,
-loot tables, tags, and item rendering files to the selected Minecraft format.
-
-CI builds and tests every target on Linux and Windows. The **Publish mod**
-workflow has a Minecraft version selector and publishes only that target's JAR.
-Published version identifiers include Minecraft's version (such as
-`1.5+mc1.20.1`) so the three releases can coexist on Modrinth.
