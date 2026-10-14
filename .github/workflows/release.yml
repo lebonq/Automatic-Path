@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       minecraft_version:
-        description: Minecraft version to publish
+        description: Minecraft versions to build and publish
         type: choice
-        options: ['1.20.1', '1.21.1', '1.21.11']
+        options: ['all', '1.20.1', '1.21.1', '1.21.11']
         default: '1.21.11'
       platform:
         description: Destination
@@ -34,7 +34,7 @@ jobs:
   publish:
     runs-on: ubuntu-24.04
     env:
-      ORG_GRADLE_PROJECT_minecraft_version: ${{ inputs.minecraft_version }}
+      MINECRAFT_SELECTION: ${{ inputs.minecraft_version }}
       ORG_GRADLE_PROJECT_publish_target: ${{ inputs.platform }}
       ORG_GRADLE_PROJECT_release_type: ${{ inputs.release_type }}
       ORG_GRADLE_PROJECT_publish_dry_run: ${{ inputs.dry_run }}
@@ -50,7 +50,12 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
       - name: Build and run game tests
-        run: ./gradlew build
+        run: |
+          if [ "$MINECRAFT_SELECTION" = "all" ]; then
+            bash scripts/build-all.sh
+          else
+            ./gradlew build "-Pminecraft_version=$MINECRAFT_SELECTION"
+          fi
       - name: Publish selected destinations
         env:
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
@@ -72,12 +77,18 @@ jobs:
           if missing:
               raise SystemExit('Configure these GitHub secrets/variables: ' + ', '.join(missing))
           PY
-          ./gradlew publishMods
+          versions=("$MINECRAFT_SELECTION")
+          if [ "$MINECRAFT_SELECTION" = "all" ]; then
+            versions=(1.20.1 1.21.1 1.21.11)
+          fi
+          for version in "${versions[@]}"; do
+            ./gradlew publishMods "-Pminecraft_version=$version"
+          done
       - name: Save release JAR and preview metadata
         uses: actions/upload-artifact@v5
         with:
           name: fabric-${{ inputs.minecraft_version }}-release
           path: |
-            build/${{ inputs.minecraft_version }}/libs/*.jar
-            build/${{ inputs.minecraft_version }}/publishMods/**
+            build/*/libs/*.jar
+            build/*/publishMods/**
           if-no-files-found: error
