@@ -16,7 +16,9 @@ import fr.lebon.autopath.entity.PathEntity;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
@@ -30,11 +32,14 @@ public class AutoPath implements ModInitializer{
         public static final String MOD_ID = "autopath";
         public static final String MOD_NAME = "Automatic Path";
 
-        public static final Block PATH_BLOCK = new PathBlock(FabricBlockSettings.create().hardness(0.5f).sounds(BlockSoundGroup.GRASS));
-        public static final Block LAWN_BLOCK = new LawnBlock(FabricBlockSettings.create().hardness(0.5f).sounds(BlockSoundGroup.GRASS));
+        private static final RegistryKey<Block> PATH_KEY = RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(MOD_ID, "path"));
+        private static final RegistryKey<Block> LAWN_KEY = RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(MOD_ID, "lawn"));
 
-        public static final BlockItem LAWN_ITEM = new BlockItem(LAWN_BLOCK, new Item.Settings());
-        public static final BlockItem PATH_ITEM = new BlockItem(PATH_BLOCK, new Item.Settings());
+        public static final Block PATH_BLOCK = new PathBlock(AbstractBlock.Settings.create().registryKey(PATH_KEY).hardness(0.5f).sounds(BlockSoundGroup.GRASS));
+        public static final Block LAWN_BLOCK = new LawnBlock(AbstractBlock.Settings.create().registryKey(LAWN_KEY).hardness(0.5f).sounds(BlockSoundGroup.GRASS));
+
+        public static final BlockItem LAWN_ITEM = new BlockItem(LAWN_BLOCK, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, LAWN_KEY.getValue())).useBlockPrefixedTranslationKey());
+        public static final BlockItem PATH_ITEM = new BlockItem(PATH_BLOCK, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, PATH_KEY.getValue())).useBlockPrefixedTranslationKey());
 
         public static BlockEntityType<PathEntity> PATH_ENTITY;
 
@@ -44,13 +49,13 @@ public class AutoPath implements ModInitializer{
 
         log(Level.INFO, "Register Blocks");
 
-        Registry.register(Registries.BLOCK, new Identifier("autopath", "path"), PATH_BLOCK);
+        Registry.register(Registries.BLOCK, Identifier.of("autopath", "path"), PATH_BLOCK);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> entries.add(PATH_ITEM));
-        Registry.register(Registries.ITEM, new Identifier("autopath", "path"), PATH_ITEM);
+        Registry.register(Registries.ITEM, Identifier.of("autopath", "path"), PATH_ITEM);
 
-        Registry.register(Registries.BLOCK, new Identifier("autopath", "lawn"), LAWN_BLOCK);
+        Registry.register(Registries.BLOCK, Identifier.of("autopath", "lawn"), LAWN_BLOCK);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> entries.add(LAWN_ITEM));
-        Registry.register(Registries.ITEM, new Identifier("autopath", "lawn"), LAWN_ITEM);
+        Registry.register(Registries.ITEM, Identifier.of("autopath", "lawn"), LAWN_ITEM);
 
         PATH_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, "autopath:path", FabricBlockEntityTypeBuilder.create(PathEntity::new, PATH_BLOCK).build());
 

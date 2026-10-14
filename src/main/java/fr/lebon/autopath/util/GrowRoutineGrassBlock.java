@@ -23,8 +23,10 @@ public class GrowRoutineGrassBlock {
 
     public static void grow(ServerWorld world, Random random, BlockPos pos, BlockState state,Block callerBlock) {
         BlockPos blockPos = pos.up();
-        BlockState blockState = Blocks.GRASS_BLOCK.getDefaultState();
-        Optional<RegistryEntry.Reference<PlacedFeature>> optional = world.getRegistryManager().get(RegistryKeys.PLACED_FEATURE).getEntry(VegetationPlacedFeatures.GRASS_BONEMEAL);
+        BlockState blockState = Blocks.SHORT_GRASS.getDefaultState();
+        Optional<RegistryEntry.Reference<PlacedFeature>> optional = world.getRegistryManager()
+    .getOptional(RegistryKeys.PLACED_FEATURE)
+    .flatMap(registry -> registry.getOptional(VegetationPlacedFeatures.GRASS_BONEMEAL));
 
         label48:
         for(int i = 0; i < 128; ++i) {

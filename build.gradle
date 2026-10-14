@@ -34,11 +34,23 @@ dependencies {
 	modImplementation "com.terraformersmc:modmenu:${project.mod_menu}"
 }
 
+fabricApi {
+	configureTests {
+		createSourceSet = true
+		modId = "autopath-tests"
+		enableClientGameTests = false
+	}
+}
+
 processResources {
 	inputs.property "version", project.version
+	inputs.property "minecraft_version", project.minecraft_version
+	inputs.property "loader_version", project.loader_version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": project.version,
+			"minecraft_version": project.minecraft_version,
+			"loader_version": project.loader_version
 	}
 }
 
@@ -54,6 +66,10 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+
 	sourceCompatibility = JavaVersion.VERSION_21
 	targetCompatibility = JavaVersion.VERSION_21
 

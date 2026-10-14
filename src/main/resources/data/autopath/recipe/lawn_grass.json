@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:grass_block",
+    "minecraft:bone_meal"
+  ],
+  "result": {
+    "count": 4,
+    "id": "autopath:lawn"
+  }
+}

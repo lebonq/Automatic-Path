@@ -8,7 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -92,21 +93,18 @@ public class PathEntity extends BlockEntity {
     }
 
     @Override
-    public void writeNbt(NbtCompound tag) {
-        super.writeNbt(tag);
-        tag.putInt("nbTick", nbTick);
-        tag.putBoolean("permanent", permanent);
-        tag.putInt("timesWalkOn", timesWalkOn);
-
-        super.writeNbt(tag);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        view.putInt("nbTick", nbTick);
+        view.putBoolean("permanent", permanent);
+        view.putInt("timesWalkOn", timesWalkOn);
     }
 
     @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
-        nbTick = tag.getInt("nbTick");
-        permanent = tag.getBoolean("permanent");
-        timesWalkOn = tag.getInt("timesWalkOn");
+    protected void readData(ReadView view) {
+        super.readData(view);
+        nbTick = view.getInt("nbTick", 0);
+        permanent = view.getBoolean("permanent", false);
+        timesWalkOn = view.getInt("timesWalkOn", 0);
     }
-
 }

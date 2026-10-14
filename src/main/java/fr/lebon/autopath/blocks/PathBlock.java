@@ -1,7 +1,5 @@
 package fr.lebon.autopath.blocks;
 
-import java.util.Random;
-
 import com.mojang.serialization.MapCodec;
 import fr.lebon.autopath.AutoPath;
 import fr.lebon.autopath.entity.PathEntity;
@@ -19,6 +17,8 @@ import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 public class PathBlock extends BlockWithEntity implements BlockEntityProvider, Fertilizable{
+
+    public static final MapCodec<PathBlock> CODEC = createCodec(PathBlock::new);
 
     public static final IntProperty STATE_RENDER = IntProperty.of("state_render",1,5);
     public static final BooleanProperty STEPPED = BooleanProperty.of("stepped");
@@ -42,7 +42,7 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
 
     @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {
-        return null;
+        return CODEC;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : validateTicker(type, AutoPath.PATH_ENTITY , PathEntity::tick);
+        return world.isClient() ? null : validateTicker(type, AutoPath.PATH_ENTITY , PathEntity::tick);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package fr.lebon.autopath.blocks;
 
-import java.util.Random;
+import com.mojang.serialization.MapCodec;
 
 import fr.lebon.autopath.util.GrowRoutineGrassBlock;
 import net.minecraft.block.Block;
@@ -13,6 +13,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 
 public class LawnBlock extends Block implements Fertilizable {
+    public static final MapCodec<LawnBlock> CODEC = createCodec(LawnBlock::new);
+
+    @Override
+    protected MapCodec<? extends Block> getCodec() {
+        return CODEC;
+    }
+
 
     public LawnBlock(Settings settings) {
         super(settings);

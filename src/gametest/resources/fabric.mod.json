@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "id": "autopath-tests",
+  "version": "1.0.0",
+  "name": "Automatic Path migration tests",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": ["fr.lebon.autopath.AutoPathGameTests"]
+  },
+  "depends": {
+    "autopath": "*",
+    "fabric-gametest-api-v1": "*"
+  }
+}
