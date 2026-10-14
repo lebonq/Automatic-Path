@@ -79,4 +79,86 @@ public class AutoPathGameTests {
             "Grassy path should feed sheep and become dirt");
         context.complete();
     }
+
+    @GameTest
+    public void existingPathsUseUpdatedConfig(TestContext context) {
+        var holder = me.shedaniel.autoconfig.AutoConfig.getConfigHolder(fr.lebon.autopath.config.AutoPathConfig.class);
+        var original = holder.getConfig();
+        try {
+            var initial = new fr.lebon.autopath.config.AutoPathConfig();
+            initial.upgradeTime = 100;
+            initial.downgradeTime = 100;
+            holder.setConfig(initial);
+            var pos = new BlockPos(2, 1, 2);
+            context.setBlockState(pos, AutoPath.PATH_BLOCK);
+            var world = context.getWorld();
+            var absolutePos = context.getAbsolutePos(pos);
+            var entity = (PathEntity) world.getBlockEntity(absolutePos);
+
+            // Replace the whole config object after the block entity already exists.
+            var updated = new fr.lebon.autopath.config.AutoPathConfig();
+            updated.upgradeTime = 1;
+            updated.downgradeTime = 100;
+            holder.setConfig(updated);
+            entity.nbTick = 20;
+            PathEntity.tick(world, absolutePos, context.getBlockState(pos).with(PathBlock.STEPPED, true), entity);
+            context.assertTrue(context.getBlockState(pos).get(PathBlock.STATE_RENDER) == 2,
+                "Existing path ignored the new upgrade interval");
+
+            // In-place edits must also take effect without recreating the entity.
+            updated.downgradeTime = 1;
+            entity.nbTick = 20;
+            PathEntity.tick(world, absolutePos, context.getBlockState(pos), entity);
+            context.assertTrue(context.getBlockState(pos).get(PathBlock.STATE_RENDER) == 1,
+                "Existing path ignored the new downgrade interval");
+
+            updated.permanentPath = true;
+            updated.steppedBeforePermanent = 2;
+            updated.permanentAsDirtPath = true;
+            context.setBlockState(pos, AutoPath.PATH_BLOCK.getDefaultState().with(PathBlock.STATE_RENDER, 5));
+            entity.timesWalkOn = 7;
+            entity.nbTick = 20;
+            PathEntity.tick(world, absolutePos, context.getBlockState(pos).with(PathBlock.STEPPED, true), entity);
+            context.assertTrue(context.getBlockState(pos).isOf(Blocks.DIRT_PATH),
+                "Existing path ignored the new permanence settings");
+        } finally {
+            holder.setConfig(original);
+        }
+        context.complete();
+    }
+
+    @GameTest
+    public void mobPathCreationUsesUpdatedConfig(TestContext context) {
+        var holder = me.shedaniel.autoconfig.AutoConfig.getConfigHolder(fr.lebon.autopath.config.AutoPathConfig.class);
+        var original = holder.getConfig();
+        try {
+            var config = new fr.lebon.autopath.config.AutoPathConfig();
+            config.enableMobPathCreation = false;
+            holder.setConfig(config);
+            var ground = new BlockPos(2, 1, 2);
+            var sheep = context.spawnEntity(EntityType.SHEEP, ground.up());
+            sheep.setAiDisabled(true);
+            var world = context.getWorld();
+            var absolutePos = context.getAbsolutePos(ground);
+            context.setBlockState(ground, Blocks.GRASS_BLOCK);
+            Blocks.GRASS_BLOCK.onSteppedOn(world, absolutePos, context.getBlockState(ground), sheep);
+            context.assertTrue(context.getBlockState(ground).isOf(Blocks.GRASS_BLOCK),
+                "Disabled mob path creation changed grass");
+
+            var updated = new fr.lebon.autopath.config.AutoPathConfig();
+            updated.enableMobPathCreation = true;
+            holder.setConfig(updated);
+            Blocks.GRASS_BLOCK.onSteppedOn(world, absolutePos, context.getBlockState(ground), sheep);
+            context.assertTrue(context.getBlockState(ground).isOf(AutoPath.PATH_BLOCK),
+                "Mob path creation ignored updated config");
+
+            context.setBlockState(ground, Blocks.STONE);
+            Blocks.STONE.onSteppedOn(world, absolutePos, context.getBlockState(ground), sheep);
+            context.assertTrue(context.getBlockState(ground).isOf(Blocks.STONE),
+                "Stepping on an ineligible block changed it");
+        } finally {
+            holder.setConfig(original);
+        }
+        context.complete();
+    }
 }

@@ -3,8 +3,6 @@ package fr.lebon.autopath.entity;
 import fr.lebon.autopath.AutoPath;
 import fr.lebon.autopath.config.AutoPathConfig;
 import fr.lebon.autopath.blocks.PathBlock;
-import me.shedaniel.autoconfig.AutoConfig;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import fr.lebon.autopath.compat.PathEntityData;
@@ -13,22 +11,8 @@ import net.minecraft.world.World;
 
 public class PathEntity extends PathEntityData {
     
-    public int downgradeTime;
-    public int upgradeTime;
-    public boolean permanentActivate;
-    public int steppedBeforePermanent;
-    public boolean permanentAsDirtPath;
-
-    public PathEntity(BlockPos pos,BlockState state) {
+    public PathEntity(BlockPos pos, BlockState state) {
         super(AutoPath.PATH_ENTITY, pos, state);
-        
-        AutoPathConfig config = AutoConfig.getConfigHolder(AutoPathConfig.class).getConfig();
-        downgradeTime = config.downgradeTime*20;//Get time and convert from second to int
-        upgradeTime = config.upgradeTime*20;
-        permanentActivate = config.permanentPath;
-        steppedBeforePermanent = config.steppedBeforePermanent;
-        permanentAsDirtPath = config.permanentAsDirtPath;
-        //TODO Move those declaration, call at every creation of a path not efficient
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, PathEntity blockEntity){//20 ticks 1 seconde
@@ -42,10 +26,11 @@ public class PathEntity extends PathEntityData {
             return;
         }
 
+        AutoPathConfig config = AutoPath.getConfig();
         boolean stepped = state.get(PathBlock.STEPPED);
         int renderState = state.get(PathBlock.STATE_RENDER);
 
-        if (stepped && blockEntity.nbTick >= blockEntity.upgradeTime) { // default 2400
+        if (stepped && blockEntity.nbTick >= config.upgradeTime * 20L) {
 
             // upgrade render state if possible
             if (renderState + 1 <= 5) {
@@ -53,9 +38,9 @@ public class PathEntity extends PathEntityData {
                 blockEntity.nbTick = 0;
             // try turning path to permanent path
             } else if (renderState == 5) {
-                if (blockEntity.permanentActivate) {
-                    if (blockEntity.timesWalkOn == blockEntity.steppedBeforePermanent) {
-                        if (blockEntity.permanentAsDirtPath) {
+                if (config.permanentPath) {
+                    if (blockEntity.timesWalkOn >= config.steppedBeforePermanent) {
+                        if (config.permanentAsDirtPath) {
                             world.setBlockState(pos, Blocks.DIRT_PATH.getDefaultState());
                             return;
                         }
@@ -68,7 +53,7 @@ public class PathEntity extends PathEntityData {
                 blockEntity.nbTick = 0;
             }
 
-        } else if (blockEntity.nbTick >= blockEntity.downgradeTime) { // default 7200
+        } else if (blockEntity.nbTick >= config.downgradeTime * 20L) {
 
             if (renderState - 1 <= 0) {
                 // downgrade back to grass
@@ -82,7 +67,7 @@ public class PathEntity extends PathEntityData {
             blockEntity.nbTick = 0;
         }
 
-        world.setBlockState(pos, state.with(PathBlock.STEPPED, false), PathBlock.SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES); // We use our custom flag  because we dont need to notify neigbours
+        world.setBlockState(pos, state.with(PathBlock.STEPPED, false), PathBlock.QUIET_STATE_UPDATE_FLAGS); // We use our custom flag  because we dont need to notify neigbours
         blockEntity.nbTick++;
     }
 

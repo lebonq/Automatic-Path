@@ -14,6 +14,7 @@ import fr.lebon.autopath.blocks.PathBlock;
 import fr.lebon.autopath.config.AutoPathConfig;
 import fr.lebon.autopath.entity.PathEntity;
 import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import fr.lebon.autopath.compat.VersionSupport;
@@ -36,6 +37,8 @@ public class AutoPath implements ModInitializer{
 
         public static BlockEntityType<PathEntity> PATH_ENTITY;
 
+        private static ConfigHolder<AutoPathConfig> configHolder;
+
     @Override
     public void onInitialize() {
         log(Level.INFO, "Initializing");
@@ -53,7 +56,12 @@ public class AutoPath implements ModInitializer{
         PATH_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, "autopath:path", FabricBlockEntityTypeBuilder.create(PathEntity::new, PATH_BLOCK).build());
 
         log(Level.INFO, "Initializing config");
-        AutoConfig.register(AutoPathConfig.class, GsonConfigSerializer::new);
+        configHolder = AutoConfig.register(AutoPathConfig.class, GsonConfigSerializer::new);
+    }
+
+    /** Keep the holder cached, but fetch its current configuration after edits or reloads. */
+    public static AutoPathConfig getConfig() {
+        return configHolder.getConfig();
     }
 
     public static void log(Level level, String message){

@@ -23,9 +23,8 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     public static final IntProperty STATE_RENDER = IntProperty.of("state_render",1,5);
     public static final BooleanProperty STEPPED = BooleanProperty.of("stepped");
 
-    /** setBlockState() flags that won't activate observers (and skips unnecessary lighting updates) */
-    // TODO : fix the SKIP_LIGHTING_UPDATES flag not working anymore
-    public static final int SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES = Block.NOTIFY_LISTENERS | Block.FORCE_STATE; // | Block.SKIP_LIGHTING_UPDATES;
+    /** Sync state to clients without neighbor callbacks; Minecraft handles lighting checks. */
+    public static final int QUIET_STATE_UPDATE_FLAGS = Block.NOTIFY_LISTENERS | Block.FORCE_STATE;
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
@@ -65,7 +64,7 @@ public class PathBlock extends BlockWithEntity implements BlockEntityProvider, F
     public void onSteppedOn(World world, BlockPos pos,BlockState state, Entity entity){
         if(!(world.isClient()) && entity.isAlive()){
             if (!state.get(STEPPED)) {
-                world.setBlockState(pos, state.with(STEPPED, true), SKIP_ALL_NEIGHBOR_AND_LIGHTING_UPDATES);
+                world.setBlockState(pos, state.with(STEPPED, true), QUIET_STATE_UPDATE_FLAGS);
             }
         }
     }
