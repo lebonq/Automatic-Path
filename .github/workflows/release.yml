@@ -3,6 +3,11 @@ name: Publish mod
 on:
   workflow_dispatch:
     inputs:
+      minecraft_version:
+        description: Minecraft version to publish
+        type: choice
+        options: ['1.20.1', '1.21.1', '1.21.11']
+        default: '1.21.11'
       platform:
         description: Destination
         type: choice
@@ -29,6 +34,7 @@ jobs:
   publish:
     runs-on: ubuntu-24.04
     env:
+      ORG_GRADLE_PROJECT_minecraft_version: ${{ inputs.minecraft_version }}
       ORG_GRADLE_PROJECT_publish_target: ${{ inputs.platform }}
       ORG_GRADLE_PROJECT_release_type: ${{ inputs.release_type }}
       ORG_GRADLE_PROJECT_publish_dry_run: ${{ inputs.dry_run }}
@@ -70,8 +76,8 @@ jobs:
       - name: Save release JAR and preview metadata
         uses: actions/upload-artifact@v5
         with:
-          name: release-artifacts
+          name: fabric-${{ inputs.minecraft_version }}-release
           path: |
-            build/libs/*.jar
-            build/publishMods/**
+            build/${{ inputs.minecraft_version }}/libs/*.jar
+            build/${{ inputs.minecraft_version }}/publishMods/**
           if-no-files-found: error

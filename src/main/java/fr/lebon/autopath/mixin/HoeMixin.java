@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import fr.lebon.autopath.AutoPath;
+import fr.lebon.autopath.compat.VersionSupport;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.HoeItem;
@@ -41,11 +42,11 @@ public class HoeMixin {
                 if (!world.isClient()) {
                     world.setBlockState(pos, Blocks.FARMLAND.getDefaultState(), 11);
                     if (playerEntity != null) {
-                        context.getStack().damage(1, playerEntity, context.getHand());
+                        VersionSupport.damageHoe(context, playerEntity);
                     }
                 }
     
-                cir.setReturnValue(ActionResult.SUCCESS);
+                cir.setReturnValue(VersionSupport.success(world));
                 cir.cancel();
             }
         }

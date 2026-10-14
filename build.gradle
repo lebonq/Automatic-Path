@@ -4,6 +4,18 @@ plugins {
 	id('maven-publish')
 }
 
+def supportedMinecraftVersions = ["1.20.1", "1.21.1", "1.21.11"]
+def targetMinecraft = providers.gradleProperty("minecraft_version").get()
+if (!(targetMinecraft in supportedMinecraftVersions)) {
+    throw new GradleException("Unsupported minecraft_version '${targetMinecraft}'. Choose ${supportedMinecraftVersions.join(', ')}")
+}
+def targetProperties = new Properties()
+rootProject.file("versions/${targetMinecraft}/gradle.properties").withInputStream { targetProperties.load(it) }
+targetProperties.each { key, value -> project.ext.set(key.toString(), value.toString()) }
+def targetJava = project.java_version.toInteger()
+layout.buildDirectory = layout.projectDirectory.dir("build/${targetMinecraft}")
+sourceSets.main.java.srcDir("versions/${targetMinecraft}/src/main/java")
+
 version = project.mod_version
 group = project.maven_group
 
@@ -41,16 +53,60 @@ fabricApi {
 	}
 }
 
+loom {
+    runs {
+        client { runDir "run/${targetMinecraft}/client" }
+        server { runDir "run/${targetMinecraft}/server" }
+        gameTest { runDir "build/${targetMinecraft}/run/gameTest" }
+    }
+}
+
+sourceSets.gametest.java.setSrcDirs(["versions/${targetMinecraft}/src/gametest/java"])
+sourceSets.gametest.resources.setSrcDirs(["src/gametest/resources"])
+
 processResources {
 	inputs.property "version", project.version
 	inputs.property "minecraft_version", project.minecraft_version
 	inputs.property "loader_version", project.loader_version
+	inputs.property "java_version", targetJava
 
-	filesMatching("fabric.mod.json") {
+	filesMatching(["fabric.mod.json", "autopath.mixins.json"]) {
 		expand "version": project.version,
 			"minecraft_version": project.minecraft_version,
-			"loader_version": project.loader_version
+			"loader_version": project.loader_version,
+			"java_version": targetJava
 	}
+    if (targetMinecraft != "1.21.11") {
+        exclude "assets/autopath/items/**"
+    }
+    eachFile { details ->
+        if (targetMinecraft == "1.20.1") {
+            details.path = details.path.replace("/tags/block/", "/tags/blocks/")
+            details.path = details.path.replace("/recipe/", "/recipes/").replace("/loot_table/", "/loot_tables/")
+        }
+    }
+    doLast {
+        if (targetMinecraft != "1.21.11") {
+            def recipeDir = new File(destinationDir, "data/autopath/${targetMinecraft == '1.20.1' ? 'recipes' : 'recipe'}")
+            fileTree(recipeDir).matching { include "*.json" }.each { recipe ->
+                def data = new groovy.json.JsonSlurper().parse(recipe)
+                data.ingredients = data.ingredients.collect { [item: it] }
+                if (targetMinecraft == "1.20.1") data.result.item = data.result.remove("id")
+                recipe.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(data)) + "\n"
+            }
+        }
+        if (targetMinecraft == "1.20.1") {
+            fileTree(new File(destinationDir, "data/autopath/loot_tables")).matching { include "**/*.json" }.each { loot ->
+                def data = new groovy.json.JsonSlurper().parse(loot)
+                def predicate = data.pools[0].entries[0].children[0].conditions[0].predicate
+                def enchantments = predicate.remove("predicates")["minecraft:enchantments"]
+                enchantments.each { it.enchantment = it.remove("enchantments") }
+                predicate.enchantments = enchantments
+                loot.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(data)) + "\n"
+            }
+        }
+    }
+
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -61,7 +117,7 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = "UTF-8"
 
 	// Minecraft 1.21 use java 21
-	it.options.release = 21
+	it.options.release = targetJava
 }
 
 java {
@@ -69,8 +125,8 @@ java {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.toVersion(targetJava)
+	targetCompatibility = JavaVersion.toVersion(targetJava)
 
 	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
 	// if it is present.
@@ -119,7 +175,7 @@ if (!(releaseType in ["stable", "beta", "alpha"])) {
 
 publishMods {
     file = tasks.remapJar.archiveFile
-    version = "${project.mod_version}"
+    version = "${project.mod_version}+mc${targetMinecraft}"
     displayName = "Automatic Path ${project.mod_version} — Minecraft ${project.minecraft_version}"
     changelog = providers.fileContents(layout.projectDirectory.file("changelog.md")).asText
     type = me.modmuss50.mpp.ReleaseType.valueOf(releaseType.toUpperCase(java.util.Locale.ROOT))
@@ -131,7 +187,7 @@ publishMods {
             projectId = providers.environmentVariable("CURSEFORGE_PROJECT_ID").orElse("460405")
             accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
             minecraftVersions.add(project.minecraft_version)
-            javaVersions.add(JavaVersion.VERSION_21)
+            javaVersions.add(JavaVersion.toVersion(targetJava))
             client = true
             server = true
             requires("fabric-api")

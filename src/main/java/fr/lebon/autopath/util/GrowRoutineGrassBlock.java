@@ -1,6 +1,7 @@
 package fr.lebon.autopath.util;
 
 import java.util.List;
+import fr.lebon.autopath.compat.VersionSupport;
 import java.util.Optional;
 
 import net.minecraft.block.*;
@@ -23,10 +24,8 @@ public class GrowRoutineGrassBlock {
 
     public static void grow(ServerWorld world, Random random, BlockPos pos, BlockState state,Block callerBlock) {
         BlockPos blockPos = pos.up();
-        BlockState blockState = Blocks.SHORT_GRASS.getDefaultState();
-        Optional<RegistryEntry.Reference<PlacedFeature>> optional = world.getRegistryManager()
-    .getOptional(RegistryKeys.PLACED_FEATURE)
-    .flatMap(registry -> registry.getOptional(VegetationPlacedFeatures.GRASS_BONEMEAL));
+        BlockState blockState = VersionSupport.shortGrass().getDefaultState();
+        Optional<RegistryEntry.Reference<PlacedFeature>> optional = VersionSupport.bonemealFeature(world);
 
         label48:
         for(int i = 0; i < 128; ++i) {

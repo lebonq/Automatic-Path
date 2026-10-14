@@ -7,23 +7,17 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
+import fr.lebon.autopath.compat.PathEntityData;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PathEntity extends BlockEntity {
+public class PathEntity extends PathEntityData {
     
     public int downgradeTime;
     public int upgradeTime;
     public boolean permanentActivate;
     public int steppedBeforePermanent;
     public boolean permanentAsDirtPath;
-
-    public boolean permanent;
-    public int timesWalkOn;
-    public int nbTick; //Game will crash after 3years non stop of existing for the block 
 
     public PathEntity(BlockPos pos,BlockState state) {
         super(AutoPath.PATH_ENTITY, pos, state);
@@ -92,19 +86,4 @@ public class PathEntity extends BlockEntity {
         blockEntity.nbTick++;
     }
 
-    @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
-        view.putInt("nbTick", nbTick);
-        view.putBoolean("permanent", permanent);
-        view.putInt("timesWalkOn", timesWalkOn);
-    }
-
-    @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        nbTick = view.getInt("nbTick", 0);
-        permanent = view.getBoolean("permanent", false);
-        timesWalkOn = view.getInt("timesWalkOn", 0);
-    }
 }
