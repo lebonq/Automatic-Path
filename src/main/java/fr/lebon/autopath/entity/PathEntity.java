@@ -10,12 +10,20 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class PathEntity extends PathEntityData {
-    
+    public static final int MAINTENANCE_INTERVAL_TICKS = 40;
+
     public PathEntity(BlockPos pos, BlockState state) {
         super(AutoPath.PATH_ENTITY, pos, state);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, PathEntity blockEntity){//20 ticks 1 seconde
+        tickWithInterval(world, pos, state, blockEntity, MAINTENANCE_INTERVAL_TICKS);
+    }
+
+    // Shared by production and the opt-in benchmark so both measure the same maintenance code.
+    static void tickWithInterval(World world, BlockPos pos, BlockState state, PathEntity blockEntity, int interval) {
+        blockEntity.nbTick++;
+        if (blockEntity.nbTick % interval != 0) return;
         if (blockEntity.permanent) return; //Si permanent on ne fait plus rien
         if (world.isClient()) return;
 
@@ -68,7 +76,6 @@ public class PathEntity extends PathEntityData {
         }
 
         world.setBlockState(pos, state.with(PathBlock.STEPPED, false), PathBlock.QUIET_STATE_UPDATE_FLAGS); // We use our custom flag  because we dont need to notify neigbours
-        blockEntity.nbTick++;
     }
 
 }
